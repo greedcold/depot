@@ -10,9 +10,7 @@ test "product attribute must not be empty" do
   assert product.errors[:price].any?
   assert product.errors[:image_url].any?
   end
-end
 
-class ProductTest < ActiveSupport::TestCase
 test "product price must be positive" do
   #цена товара должны быть положительной
   product = Product.new(title: "My Book Title",
@@ -31,10 +29,8 @@ test "product price must be positive" do
       product.errors[:price]
   product.price = 1
   assert product.valid?
-  end
 end
 
-class ProductTest < ActiveSupport::TestCase
 def new_product(image_url)
   product = Product.new(title: "My Book Title",
                         description: "yyy",

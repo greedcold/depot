@@ -2,7 +2,8 @@ class LineItemsController < ApplicationController
   include CurrentCart
   before_action :set_cart, only: [:create]
   before_action :set_line_item, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_cart, only: [:create, :decrement]
+  before_action :set_line_item, only: [:show, :edit, :update, :destroy, :decrement]
   # GET /line_items
   # GET /line_items.json
   def index
@@ -41,6 +42,21 @@ class LineItemsController < ApplicationController
     end
   end
 
+  def decrement
+     if @line_item.quantity > 1
+       @line_item.quantity -= 1
+     else
+       @line_item.destroy
+     end
+
+     respond_to do |format|
+       if @line_item.save
+         format.js { @current_item = @line_item }
+       else
+         format.js { @current_item = @line_item }
+       end
+     end
+  end
   # PATCH/PUT /line_items/1
   # PATCH/PUT /line_items/1.json
   def update
